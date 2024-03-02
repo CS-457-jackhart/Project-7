@@ -15,8 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sample.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="quantsph.glib" />
+    <None Include="quantsph.vert" />
+    <None Include="quantsph.frag" />
+    <None Include="quantsph.geom" />
   </ItemGroup>
 </Project>
