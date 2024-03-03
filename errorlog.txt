@@ -1,5 +1,5 @@
 
-0(16) : error C1503: undefined variable "vN"
-0(17) : error C1503: undefined variable "vL"
-0(18) : error C1503: undefined variable "vE"
+0(9) : error C0000: syntax error, unexpected reserved word "uniform", expecting ',' or ';' at token "uniform"
+0(74) : error C1503: undefined variable "uRedDepth"
+0(74) : error C1503: undefined variable "uRedDepth"
 

@@ -5,10 +5,58 @@ uniform float uKa;
 uniform float uKd;
 uniform float uKs;			// coefficients of each type of lighting -- make sum to 1.0
 uniform float uShininess;	// specular exponent
+uniform bool  uUseChromaDepth;
 
 in vec3	gN;		 // normal vector
 in vec3	gL;		 // vector from point to light
 in vec3	gE;		 // vector from point to eye
+in float  gZ;
+
+vec3
+Rainbow(float t)
+{
+     t = clamp(t, 0., 1.);         // 0.00 is red, 0.33 is green, 0.67 is blue
+
+     float r = 1.;
+     float g = 0.0;
+     float b = 1. - 6. * (t - (5. / 6.));
+
+     if (t <= (5. / 6.))
+     {
+          r = 6. * (t - (4. / 6.));
+          g = 0.;
+          b = 1.;
+     }
+
+     if (t <= (4. / 6.))
+     {
+          r = 0.;
+          g = 1. - 6. * (t - (3. / 6.));
+          b = 1.;
+     }
+
+     if (t <= (3. / 6.))
+     {
+          r = 0.;
+          g = 1.;
+          b = 6. * (t - (2. / 6.));
+     }
+
+     if (t <= (2. / 6.))
+     {
+          r = 1. - 6. * (t - (1. / 6.));
+          g = 1.;
+          b = 0.;
+     }
+
+     if (t <= (1. / 6.))
+     {
+          r = 1.;
+          g = 6. * t;
+     }
+
+     return vec3(r, g, b);
+}
 
 void
 main()
@@ -18,6 +66,13 @@ main()
 	vec3 Eye = normalize(gE);
 	vec3 myColor = vec3(0.95, 0.95, 0.95);		// whatever default color you'd like
 	vec3 mySpecularColor = vec3(1., 1., 1.);	// whatever default color you'd like
+
+     if (uUseChromaDepth)
+     {
+          float t = (2. / 3.) * (abs(gZ) - 2.) / 1.;
+          t = clamp(t, 0., 2. / 3.);
+          myColor = Rainbow(t);
+     }
 
 	// apply the per-fragment lighting to myColor:
 
